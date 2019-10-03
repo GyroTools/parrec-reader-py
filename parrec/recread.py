@@ -9,10 +9,7 @@ class Recread:
         basename, file_extension = os.path.splitext(filename)
         if file_extension == '.rec':
             self.recfile = filename
-            parfile = basename + '.par'
-            if not os.path.exists(parfile):
-                raise FileNotFoundError('Cannot find the corresponding PAR file')
-            self.parfile = parfile
+            self.parfile = Parread.get_parfile(filename)
         elif file_extension == '.par':
             self.parfile = filename
             recfile = basename + '.rec'
@@ -23,6 +20,7 @@ class Recread:
     def read(self):
         parfile = Parread(self.parfile)
         pars = parfile.read()
+        self.parameter = pars
         rec_size = os.path.getsize(self.recfile)
         xres = pars['ImageInformation'][0]['ReconResolution'][0]
         yres = pars['ImageInformation'][0]['ReconResolution'][1]
@@ -40,6 +38,7 @@ class Recread:
     def read_image(self, image_nr):
         parfile = Parread(self.parfile)
         pars = parfile.read()
+        self.parameter = pars
         rec_size = os.path.getsize(self.recfile)
         xres = pars['ImageInformation'][0]['ReconResolution'][0]
         yres = pars['ImageInformation'][0]['ReconResolution'][1]
