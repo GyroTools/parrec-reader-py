@@ -31,7 +31,7 @@ class Recread:
 
         with open(self.recfile, "rb") as recfile:
             data = np.fromfile(recfile, dtype=np.uint16, count=int(rec_size/2))
-            data = np.reshape(data, (xres, yres, nr_images))
+            data = np.reshape(data, (xres, yres, nr_images), order='F')
 
         return data
 
@@ -53,6 +53,6 @@ class Recread:
         with open(self.recfile, "rb") as recfile:
             recfile.seek(image_nr * xres * yres)
             data = np.fromfile(recfile, dtype=np.uint16, count=int(xres * yres))
-            data = np.reshape(data, (xres, yres))
+            data = np.reshape(data, (xres, yres), order='F')
 
         return data
