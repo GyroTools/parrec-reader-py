@@ -17,6 +17,7 @@ def test_read_upper_parameters():
     assert upper_pars['WaterFatShift'] == 0.97
     assert upper_pars['NumberOfLabelTypes'] == 0
 
+
 def test_get_definitions():
     par = Parread('./data/rf_12102012_1332440_1_1_wipsurveyV42.par')
     with open(par.parfile) as file:
@@ -28,6 +29,7 @@ def test_get_definitions():
     assert definitions[10] == ('RescaleIntercept', 2, 1)
     assert definitions[15] == ('ImageAngulation', 2, 3)
     assert definitions[38] == ('DiffusionAnisotropyType', 3, 1)
+
 
 def test_read_lower_parameters():
     par = Parread('./data/rf_12102012_1332440_1_1_wipsurveyV42.par')
@@ -43,6 +45,7 @@ def test_read_lower_parameters():
     assert lower_pars[0]['ImageOffcentre'] == [-0.000, -95.000,  -0.000]
     assert lower_pars[59]['ImageOffcentre'] == [-0.000, 0.000, -142.500]
     assert lower_pars[10]['ImageFlipAngle'] == 20.0
+
 
 def test_read():
     par = Parread('./data/rf_12102012_1332440_1_1_wipsurveyV42.par')

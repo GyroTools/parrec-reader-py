@@ -7,14 +7,16 @@ from parrec.parread import Parread
 class Recread:
     def __init__(self, filename):
         basename, file_extension = os.path.splitext(filename)
-        if file_extension == '.rec':
+        if file_extension.lower() == '.rec':
             self.recfile = filename
             self.parfile = Parread.get_parfile(filename)
-        elif file_extension == '.par':
+        elif file_extension.lower() == '.par':
             self.parfile = filename
             recfile = basename + '.rec'
             if not os.path.exists(recfile):
-                raise FileNotFoundError('Cannot find the corresponding REC file')
+                recfile = basename + '.REC'
+                if not os.path.exists(recfile):
+                    raise FileNotFoundError('Cannot find the corresponding REC file')
             self.recfile = recfile
 
     def read(self):

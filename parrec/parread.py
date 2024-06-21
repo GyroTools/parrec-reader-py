@@ -21,12 +21,14 @@ class Parread:
     @staticmethod
     def get_parfile(filename):
         basename, file_extension = os.path.splitext(filename)
-        if file_extension == '.rec':
+        if file_extension.lower() == '.rec':
             parfile = basename + '.par'
             if not os.path.exists(parfile):
-                raise FileNotFoundError('Cannot find the corresponding PAR file')
+                parfile = basename + '.PAR'
+                if not os.path.exists(parfile):
+                    raise FileNotFoundError('Cannot find the corresponding PAR file')
             return parfile
-        elif file_extension == '.par':
+        elif file_extension.lower() == '.par':
             return filename
 
     def _read_upper_part(self, file):

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="parrec-reader-py",
-    version="0.0.4",
+    version="0.1.0",
     author="Martin Bührer",
     author_email="info@gyrotools.com",
     description="A Philips par/rec reader for Python",
