@@ -12,6 +12,16 @@ def test_read_par():
     assert data.shape == (256, 256, 60)
 
 
+def test_read_xml():
+    rec = Recread('./data/T2W_TSE_SimpleRecon.xml')
+
+    assert rec.parfile == './data/T2W_TSE_SimpleRecon.xml'
+    assert rec.recfile == './data/T2W_TSE_SimpleRecon.rec'
+
+    data = rec.read()
+    assert data.shape == (480, 480, 3)
+
+
 def test_read_rec():
     rec = Recread('./data/rf_12102012_1332440_1_1_wipsurveyV42.rec')
 
@@ -20,6 +30,16 @@ def test_read_rec():
 
     data = rec.read()
     assert data.shape == (256, 256, 60)
+
+
+def test_read_rec2():
+    rec = Recread('./data/T2W_TSE_SimpleRecon.rec')
+
+    assert rec.parfile == './data/T2W_TSE_SimpleRecon.xml'
+    assert rec.recfile == './data/T2W_TSE_SimpleRecon.rec'
+
+    data = rec.read()
+    assert data.shape == (480, 480, 3)
 
 
 def test_read_image():

@@ -26,7 +26,11 @@ class Parread:
             if not os.path.exists(parfile):
                 parfile = basename + '.PAR'
                 if not os.path.exists(parfile):
-                    raise FileNotFoundError('Cannot find the corresponding PAR file')
+                    parfile = basename + '.xml'
+                    if not os.path.exists(parfile):
+                        parfile = basename + '.XML'
+                        if not os.path.exists(parfile):
+                            raise FileNotFoundError('Cannot find the corresponding PAR file')
             return parfile
         elif file_extension.lower() == '.par':
             return filename

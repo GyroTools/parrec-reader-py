@@ -2,6 +2,7 @@ import numpy as np
 import os
 
 from parrec.parread import Parread
+from parrec.xmlread import Xmlread
 
 
 class Recread:
@@ -18,16 +19,36 @@ class Recread:
                 if not os.path.exists(recfile):
                     raise FileNotFoundError('Cannot find the corresponding REC file')
             self.recfile = recfile
+        elif file_extension.lower() == '.xml':
+            self.parfile = filename
+            recfile = basename + '.rec'
+            if not os.path.exists(recfile):
+                recfile = basename + '.REC'
+                if not os.path.exists(recfile):
+                    raise FileNotFoundError('Cannot find the corresponding REC file')
+            self.recfile = recfile
+
+    @property
+    def is_xml(self):
+        return os.path.splitext(self.parfile)[1].lower() == '.xml'
 
     def read(self):
-        parfile = Parread(self.parfile)
-        pars = parfile.read()
-        self.parameter = pars
         rec_size = os.path.getsize(self.recfile)
-        xres = pars['ImageInformation'][0]['ReconResolution'][0]
-        yres = pars['ImageInformation'][0]['ReconResolution'][1]
-        nr_images = int(rec_size / 2 / xres / yres)
+        if self.is_xml:
+            parfile = Xmlread(self.parfile)
+            pars = parfile.read()
+            xres = pars['ImageInformation'][0]['ResolutionX']
+            yres = pars['ImageInformation'][0]['ResolutionY']
+        else:
+            parfile = Parread(self.parfile)
+            pars = parfile.read()
+            xres = pars['ImageInformation'][0]['ReconResolution'][0]
+            yres = pars['ImageInformation'][0]['ReconResolution'][1]
+
+        self.parameter = pars
         nr_images_par = len(pars['ImageInformation'])
+
+        nr_images = int(rec_size / 2 / xres / yres)
         if nr_images != nr_images_par:
             print('WARNING: The number of images in the .par file does not match the number of images in the .rec file')
 
